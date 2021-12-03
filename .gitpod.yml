@@ -1,0 +1,19 @@
+tasks:
+  - name: Install and Build
+    init: yarn install && yarn build
+    command: yarn run dev
+  - name: Rust tools
+    init: |
+      cargo install --locked cargo-outdated
+      rustup component add clippy
+    command: cargo outdated -R
+
+# List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
+ports:
+  - port: 8080
+    onOpen: open-browser
+
+vscode:
+  extensions:
+    - bierner.markdown-preview-github-styles
+    - sndst00m.markdown-github-dark-pack

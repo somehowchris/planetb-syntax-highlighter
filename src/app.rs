@@ -6,7 +6,7 @@ use yew::format::Json;
 use yew::prelude::*;
 use yew::services::storage::{Area, StorageService};
 
-const KEY: &str = "yew.todomvc.self";
+const KEY: &str = "yew.codestyle.self";
 
 pub struct App {
     link: ComponentLink<Self>,
@@ -170,7 +170,6 @@ impl App {
         html! {
             <li>
                 <a class=if self.state.filter == flt { "selected" } else { "not-selected" }
-                   href=&flt
                    onclick=self.link.callback(move |_| Msg::SetFilter(flt.clone()))>
                     { filter }
                 </a>
@@ -184,7 +183,6 @@ impl App {
             // <li></li>
             <input class="new-todo"
                    placeholder="What needs to be done?"
-                   value=&self.state.value
                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
                    onkeypress=self.link.callback(|e: KeyboardEvent| {
                        if e.key() == "Enter" { Msg::Add } else { Msg::Nope }
@@ -224,7 +222,6 @@ impl App {
             html! {
                 <input class="edit"
                        type="text"
-                       value=&entry.description
                        oninput=self.link.callback(move |e: InputData| Msg::UpdateEdit(e.value))
                        onblur=self.link.callback(move |_| Msg::Edit(idx))
                        onkeypress=self.link.callback(move |e: KeyboardEvent| {
@@ -242,16 +239,6 @@ pub enum Filter {
     All,
     Active,
     Completed,
-}
-
-impl<'a> Into<Href> for &'a Filter {
-    fn into(self) -> Href {
-        match *self {
-            Filter::All => "#/".into(),
-            Filter::Active => "#/active".into(),
-            Filter::Completed => "#/completed".into(),
-        }
-    }
 }
 
 impl Filter {
