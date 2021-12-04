@@ -73,7 +73,7 @@ impl Component for App {
     fn view(&self) -> Html {
         info!("rendered!");
         html! {
-            <img src="/assets/images/cpp.png" />
+            <img src="./assets/images/cpp.png" />
         }
     }
 }
