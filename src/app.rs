@@ -30,7 +30,7 @@ struct Entry {
 }
 
 pub enum Msg {
-    HIDE_INIT_MESSAGE,
+    HideInitMessage,
 }
 
 impl Component for App {
@@ -39,7 +39,11 @@ impl Component for App {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let storage = StorageService::new(Area::Local).unwrap();
-        let state = State { show_info: true };
+
+        let state = State {
+            show_info: true,
+        };
+
         App {
             link,
             storage,
@@ -51,12 +55,18 @@ impl Component for App {
         false
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::HideInitMessage => {
+                self.state.dont_show_again();
+            }
+        }
         true
     }
 
     fn view(&self) -> Html {
         info!("rendered!");
+
         html! {
         <header>
             <div
@@ -180,10 +190,7 @@ impl Component for App {
                                                             <button
                                                                 type="button"
                                                                 class="btn btn-outline-success"
-                                                                onclick={Callback::from(|_| {
-                                                                    self.state.dont_show_again();
-                                                                    ()
-                                                                })}
+                                                                onclick=self.link.callback(|_| Msg::HideInitMessage)
                                                             >
                                                                 {"Don't show me this again"}
                                                             </button>
