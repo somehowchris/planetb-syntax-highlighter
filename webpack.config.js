@@ -15,12 +15,6 @@ module.exports = (env, argv) => {
       port: process.env.PORT || 8000,
     },
     entry: "./bootstrap.js",
-    optimization: {
-      minimize: argv.mode === "production",
-      minimizer: [
-        new ClosurePlugin({mode: 'STANDARD', childCompilations: true}, {}),
-      ],
-    },
     output: {
       path: distPath,
       filename: "codestyle.js",

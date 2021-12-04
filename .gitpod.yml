@@ -6,6 +6,9 @@ tasks:
     init: |
       cargo install --locked cargo-outdated
       rustup component add clippy
+      sudo apt update -y
+      sudo ypt upgrade -y
+      sudo apt install xsel -y
     command: cargo outdated -R
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/

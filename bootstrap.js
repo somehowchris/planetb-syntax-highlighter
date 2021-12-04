@@ -5,7 +5,6 @@ import "./src/highlighter/source/index.js";
 import './src/assets/js/material-kit.min.js';
 import './src/assets/js/core/bootstrap.min.js';
 
-
-import("./pkg").then(async (module) => {
+import("./pkg").then((module) => {
   module.run_app();
 });
