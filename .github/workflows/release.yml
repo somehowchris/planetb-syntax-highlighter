@@ -17,6 +17,13 @@ jobs:
     - name: Process version of the tag
       id: version
       uses: ncipollo/semantic-version-action@v1
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment
+      id: deployment
+      with:
+        token: "${{ github.token }}"
+        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        environment: docker-hub
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
     - name: Set up Docker Buildx
@@ -27,33 +34,27 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - uses: avakar/create-deployment@v1
-      with:
-        auto_merge: false
-        environment: "docker-hub"
-        required_contexts: success 
-      env:
-        GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-    - uses: avakar/set-deployment-status@v1
-      with:
-        state: in_progress
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Build Default
       env:
         VERSION: ${{ steps.version.outputs.tag }}
       run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
-    - uses: avakar/set-deployment-status@v1
+    - name: Update deployment status (success)
+      if: success()
+      uses: chrnorm/deployment-status@releases/v1
       with:
-        state: success
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: avakar/set-deployment-status@v1
+        token: "${{ github.token }}"
+        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        state: "success"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+    - name: Update deployment status (failure)
       if: failure()
+      uses: chrnorm/deployment-status@releases/v1
       with:
-        state: failure
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: "${{ github.token }}"
+        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        state: "failure"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   github-pages:
     runs-on: ubuntu-latest
