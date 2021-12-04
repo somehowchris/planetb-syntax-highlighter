@@ -17,6 +17,7 @@ jobs:
     - name: Process version of the tag
       id: version
       uses: ncipollo/semantic-version-action@v1
+
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment
       id: deployment
@@ -24,20 +25,43 @@ jobs:
         token: "${{ github.token }}"
         target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
         environment: docker-hub
+
+    - name: Update deployment status (failure)
+      if: failure()
+      uses: chrnorm/deployment-status@releases/v1
+      with:
+        token: "${{ github.token }}"
+        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        state: "pending"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
+
     - name: Set up Docker Buildx
       id: buildx
       uses: docker/setup-buildx-action@v1
+
     - name: Login to DockerHub
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Update deployment status (failure)
+      if: failure()
+      uses: chrnorm/deployment-status@releases/v1
+      with:
+        token: "${{ github.token }}"
+        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        state: "in_progress"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
     - name: Build Default
       env:
         VERSION: ${{ steps.version.outputs.tag }}
       run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
+
     - name: Update deployment status (success)
       if: success()
       uses: chrnorm/deployment-status@releases/v1

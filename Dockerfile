@@ -11,8 +11,7 @@ SHELL ["/bin/bash", "--login", "-c"]
 RUN curl -fsSL https://fnm.vercel.app/install | bash
 ENV PATH=/root/.fnm:$PATH
 
-RUN eval "$(fnm env --shell=bash)"
-RUN fnm install && fnm use
+RUN fnm install && fnm use && npm i -g npm
 
 RUN npm i -g yarn && yarn install
 

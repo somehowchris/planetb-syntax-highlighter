@@ -2,6 +2,8 @@ tasks:
   - name: Install and Build
     init: yarn install && yarn build
     command: yarn run dev
+  - name: Docker
+    init: docker build .
   - name: Rust tools
     init: |
       cargo install --locked cargo-outdated
