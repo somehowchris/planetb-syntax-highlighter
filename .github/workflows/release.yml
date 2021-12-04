@@ -27,10 +27,33 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: avakar/create-deployment@v1
+      with:
+        auto_merge: false
+        environment: "docker-hub"
+        task: publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+    - uses: avakar/set-deployment-status@v1
+      with:
+        state: in_progress
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Build Default
       env:
         VERSION: ${{ steps.version.outputs.tag }}
-      run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/noria-mysql-adapter:$VERSION .
+      run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
+    - uses: avakar/set-deployment-status@v1
+      with:
+        state: success
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: avakar/set-deployment-status@v1
+      if: failure()
+      with:
+        state: failure
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   github-pages:
     runs-on: ubuntu-latest
@@ -55,3 +78,4 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: dist # The folder the action should deploy.
+          clean: true
