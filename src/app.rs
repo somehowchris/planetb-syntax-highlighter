@@ -68,7 +68,7 @@ impl Component for App {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 offset-lg-2">
-                            <div class="card" data-animation="true" hidden={self.state.show_info}>
+                            <div class="card" data-animation="true" hidden={!self.state.show_info}>
                                 <div class="card-body">
                                     <section
                                         class="py-9"
@@ -180,7 +180,10 @@ impl Component for App {
                                                             <button
                                                                 type="button"
                                                                 class="btn btn-outline-success"
-                                                                onclick={Callback::from(|_| ())}
+                                                                onclick={Callback::from(|_| {
+                                                                    self.state.dont_show_again();
+                                                                    ()
+                                                                })}
                                                             >
                                                                 {"Don't show me this again"}
                                                             </button>
