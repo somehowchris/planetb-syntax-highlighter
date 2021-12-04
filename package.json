@@ -13,7 +13,7 @@
     "css-loader": "4.3.0",
     "google-closure-compiler": "^20211107.0.0",
     "sass": "1.26.11",
-    "sass-loader": "10.0.2",
+    "sass-loader": "10.2.0",
     "style-loader": "1.3.0",
     "wasm-pack": "0.9.1",
     "webpack": "4.44.2",
