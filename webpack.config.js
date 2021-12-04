@@ -11,10 +11,12 @@ module.exports = (env, argv) => {
       compress: argv.mode === "production",
       port: 8000,
     },
-    optimization: {
-      minimizer: [new ClosurePlugin({ mode: "STANDARD" }, {})],
-    },
     entry: "./bootstrap.js",
+    optimization: {
+      minimizer: [
+        new ClosurePlugin({mode: 'STANDARD', childCompilations: true}, {})
+      ]
+    },
     output: {
       path: distPath,
       filename: "codestyle.js",
@@ -26,12 +28,13 @@ module.exports = (env, argv) => {
           test: /\.s[ac]ss$/i,
           use: ["style-loader", "css-loader", "sass-loader"],
         },
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
       ],
     },
     plugins: [
-      new CopyWebpackPlugin({
-        patterns: [{ from: "./static", to: distPath }],
-      }),
       new WasmPackPlugin({
         crateDirectory: ".",
         extraArgs: "--no-typescript",

@@ -673,3 +673,6 @@ dp.sh.HighlightAll = function (
     element.parentNode.insertBefore(highlighter.div, element);
   }
 };
+
+
+global.dp = dp;

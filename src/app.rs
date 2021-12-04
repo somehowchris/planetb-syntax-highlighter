@@ -4,7 +4,12 @@ use strum::IntoEnumIterator;
 use strum_macros::{EnumIter, ToString};
 use yew::format::Json;
 use yew::prelude::*;
+use wasm_bindgen::prelude::*;
+use web_sys::HtmlTextAreaElement;
+use yew::prelude::*;
 use yew::services::storage::{Area, StorageService};
+
+mod highlighter;
 
 const KEY: &str = "yew.codestyle.self";
 
@@ -126,39 +131,7 @@ impl Component for App {
     fn view(&self) -> Html {
         info!("rendered!");
         html! {
-            <div class="todomvc-wrapper">
-                <section class="todoapp">
-                    <header class="header">
-                        <h1>{ "todos" }</h1>
-                        { self.view_input() }
-                    </header>
-                    <section class="main">
-                        <input class="toggle-all" type="checkbox" checked=self.state.is_all_completed() onclick=self.link.callback(|_| Msg::ToggleAll) />
-                        <ul class="todo-list">
-                            { for self.state.entries.iter().filter(|e| self.state.filter.fit(e))
-                                .enumerate()
-                                .map(|val| self.view_entry(val)) }
-                        </ul>
-                    </section>
-                    <footer class="footer">
-                        <span class="todo-count">
-                            <strong>{ self.state.total() }</strong>
-                            { " item(s) left" }
-                        </span>
-                        <ul class="filters">
-                            { for Filter::iter().map(|flt| self.view_filter(flt)) }
-                        </ul>
-                        <button class="clear-completed" onclick=self.link.callback(|_| Msg::ClearCompleted)>
-                            { format!("Clear completed ({})", self.state.total_completed()) }
-                        </button>
-                    </footer>
-                </section>
-                <footer class="info">
-                    <p>{ "Double-click to edit a todo" }</p>
-                    <p>{ "Written by " }<a href="https://github.com/DenisKolodin/" target="_blank">{ "Denis Kolodin" }</a></p>
-                    <p>{ "Part of " }<a href="http://todomvc.com/" target="_blank">{ "TodoMVC" }</a></p>
-                </footer>
-            </div>
+            <header></header>
         }
     }
 }
@@ -211,7 +184,7 @@ impl App {
                     <label ondblclick=self.link.callback(move |_| Msg::ToggleEdit(idx))>{ &entry.description }</label>
                     <button class="destroy" onclick=self.link.callback(move |_| Msg::Remove(idx)) />
                 </div>
-                { self.view_entry_edit_input((&idx, &entry)) }
+                { self.view_entry_edit_input((&idx, entry)) }
             </li>
         }
     }
