@@ -29,7 +29,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - uses: avakar/create-deployment@v1
       with:
-        auto_merge: true
+        auto_merge: false
         environment: "docker-hub"
         required_contexts: success 
       env:
