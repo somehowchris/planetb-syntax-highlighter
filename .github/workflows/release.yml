@@ -31,7 +31,6 @@ jobs:
       with:
         auto_merge: true
         environment: "docker-hub"
-        task: publish
       env:
         GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
     - uses: avakar/set-deployment-status@v1
