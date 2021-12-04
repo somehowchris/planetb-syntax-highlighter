@@ -19,10 +19,7 @@ pub struct App {
 
 #[derive(Serialize, Deserialize)]
 pub struct State {
-    entries: Vec<Entry>,
-    filter: Filter,
-    value: String,
-    edit_value: String,
+    show_info: bool
 }
 
 #[derive(Serialize, Deserialize)]
@@ -32,7 +29,9 @@ struct Entry {
     editing: bool,
 }
 
-pub enum Msg {}
+pub enum Msg {
+    HIDE_INIT_MESSAGE
+}
 
 impl Component for App {
     type Message = Msg;
@@ -40,18 +39,8 @@ impl Component for App {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let storage = StorageService::new(Area::Local).unwrap();
-        let entries = {
-            if let Json(Ok(restored_entries)) = storage.restore(KEY) {
-                restored_entries
-            } else {
-                Vec::new()
-            }
-        };
         let state = State {
-            entries,
-            filter: Filter::All,
-            value: "".into(),
-            edit_value: "".into(),
+            show_info: true,
         };
         App {
             link,
@@ -65,7 +54,6 @@ impl Component for App {
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        self.storage.store(KEY, Json(&self.state.entries));
         true
     }
 
@@ -82,7 +70,7 @@ impl Component for App {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 offset-lg-2">
-                            <div class="card" data-animation="true">
+                            <div class="card" data-animation="true" hidden={self.state.show_info}>
                                 <div class="card-body">
                                     <section
                                         class="py-9"
@@ -191,10 +179,10 @@ impl Component for App {
                                                         <div class="row">
                                                             <div class="col-12">
                                                             <br />
-                                                            <br />
                                                             <button
                                                                 type="button"
                                                                 class="btn btn-outline-success"
+                                                                onclick={Callback::from(|_| ())}
                                                             >
                                                                 {"Don't show me this again"}
                                                             </button>
@@ -228,4 +216,8 @@ pub enum Filter {
 
 impl Filter {}
 
-impl State {}
+impl State {
+    pub fn dont_show_again(&mut self) {
+        self.show_info = false;
+    }
+}
