@@ -74,6 +74,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: dist-folder
+        path: dist/
 
     - name: Update deployment status (in_progress)
       uses: chrnorm/deployment-status@releases/v1
@@ -114,6 +115,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist-folder
+          path: dist/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
