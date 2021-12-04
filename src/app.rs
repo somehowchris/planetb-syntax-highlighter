@@ -19,7 +19,7 @@ pub struct App {
 
 #[derive(Serialize, Deserialize)]
 pub struct State {
-    show_info: bool
+    show_info: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -30,7 +30,7 @@ struct Entry {
 }
 
 pub enum Msg {
-    HIDE_INIT_MESSAGE
+    HIDE_INIT_MESSAGE,
 }
 
 impl Component for App {
@@ -39,9 +39,7 @@ impl Component for App {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let storage = StorageService::new(Area::Local).unwrap();
-        let state = State {
-            show_info: true,
-        };
+        let state = State { show_info: true };
         App {
             link,
             storage,
