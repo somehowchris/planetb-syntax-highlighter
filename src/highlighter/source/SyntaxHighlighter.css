@@ -52,7 +52,7 @@
 .dp-highlighter .columns div {
   list-style: decimal-leading-zero; /* better look for others, override cascade from OL */
   list-style-position: outside !important;
-  border-left: 3px solid #6ce26c;
+  border-left: 3px solid #1781e3;
   background-color: #f8f8f8;
   color: #5c5c5c;
   padding: 0 3px 0 10px !important;
@@ -118,7 +118,7 @@
   color: silver;
   background-color: #f8f8f8;
   padding-bottom: 10px;
-  border-left: 3px solid #6ce26c;
+  border-left: 3px solid #1781e3;
 }
 
 .dp-highlighter.nogutter .tools {

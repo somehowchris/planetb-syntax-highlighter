@@ -6,16 +6,20 @@ const ClosurePlugin = require("closure-webpack-plugin");
 const distPath = path.resolve(__dirname, "dist");
 module.exports = (env, argv) => {
   return {
+    experiments: {
+      asyncWebAssembly: true,
+    },
     devServer: {
-      contentBase: distPath,
+      //contentBase: distPath,
       compress: argv.mode === "production",
-      port: 8000,
+      port: process.env.PORT || 8000,
     },
     entry: "./bootstrap.js",
     optimization: {
+      minimize: argv.mode === "production",
       minimizer: [
-        new ClosurePlugin({mode: 'STANDARD', childCompilations: true}, {})
-      ]
+        new ClosurePlugin({mode: 'STANDARD', childCompilations: true}, {}),
+      ],
     },
     output: {
       path: distPath,
@@ -32,9 +36,22 @@ module.exports = (env, argv) => {
           test: /\.css$/i,
           use: ["style-loader", "css-loader"],
         },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+        },
       ],
     },
     plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: './static', to: distPath },
+        ],
+      }),
       new WasmPackPlugin({
         crateDirectory: ".",
         extraArgs: "--no-typescript",

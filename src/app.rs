@@ -2,11 +2,11 @@ use log::*;
 use serde_derive::{Deserialize, Serialize};
 use strum::IntoEnumIterator;
 use strum_macros::{EnumIter, ToString};
+
+
 use yew::format::Json;
 use yew::prelude::*;
-use wasm_bindgen::prelude::*;
-use web_sys::HtmlTextAreaElement;
-use yew::prelude::*;
+
 use yew::services::storage::{Area, StorageService};
 
 mod highlighter;
@@ -131,7 +131,7 @@ impl Component for App {
     fn view(&self) -> Html {
         info!("rendered!");
         html! {
-            <header></header>
+            <img src="/assets/images/cpp.png" />
         }
     }
 }
