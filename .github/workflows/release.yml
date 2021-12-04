@@ -23,15 +23,14 @@ jobs:
       id: deployment
       with:
         token: "${{ github.token }}"
-        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
         environment: docker-hub
 
-    - name: Update deployment status (failure)
-      if: failure()
+    - name: Update deployment status (pending)
       uses: chrnorm/deployment-status@releases/v1
       with:
         token: "${{ github.token }}"
-        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
         state: "pending"
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
@@ -48,12 +47,11 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Update deployment status (failure)
-      if: failure()
+    - name: Update deployment status (in_progress)
       uses: chrnorm/deployment-status@releases/v1
       with:
         token: "${{ github.token }}"
-        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
         state: "in_progress"
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 

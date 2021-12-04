@@ -8,7 +8,7 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install curl unzip -y
 
 SHELL ["/bin/bash", "--login", "-c"]
 
-RUN curl -fsSL https://fnm.vercel.app/install | bash
+RUN cargo install fnm
 ENV PATH=/root/.fnm:$PATH
 
 RUN fnm install && fnm use && npm i -g npm
