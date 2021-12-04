@@ -1,4 +1,4 @@
-FROM rust:1.56.0-slim as build
+FROM rust:1.57.0-slim as build
 
 WORKDIR /src
 
