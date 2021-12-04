@@ -1,10 +1,10 @@
-FROM rust:1.57.0-slim as build
+FROM rust:1.57.0-alpine as build
 
 WORKDIR /src
 
 COPY . .
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install curl unzip -y
+RUN apk add --no-cache curl unzip bash
 
 SHELL ["/bin/bash", "--login", "-c"]
 
