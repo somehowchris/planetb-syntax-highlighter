@@ -674,5 +674,4 @@ dp.sh.HighlightAll = function (
   }
 };
 
-
 global.dp = dp;

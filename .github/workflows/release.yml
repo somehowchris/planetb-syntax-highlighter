@@ -1,9 +1,9 @@
 name: Release
 
-on: 
+on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
   build:
@@ -13,14 +13,14 @@ jobs:
         uses: actions/checkout@v2.3.1
       - uses: actions-rs/toolchain@v1
         with:
-            toolchain: stable
-            override: true
+          toolchain: stable
+          override: true
       - uses: actions/setup-node@v2
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
       - name: Install yarn
         run: npm i -g yarn
-      - name: Install 
+      - name: Install
         run: yarn install
       - name: Build
         run: yarn build
@@ -28,84 +28,84 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dist-folder
-          path:  dist
+          path: dist
   docker:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository and submodules
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - name: Process version of the tag
-      id: version
-      uses: ncipollo/semantic-version-action@v1
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Process version of the tag
+        id: version
+        uses: ncipollo/semantic-version-action@v1
 
-    - uses: chrnorm/deployment-action@releases/v1
-      name: Create GitHub deployment
-      id: deployment
-      with:
-        token: "${{ github.token }}"
-        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-        environment: docker-hub
+      - uses: chrnorm/deployment-action@releases/v1
+        name: Create GitHub deployment
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          environment: docker-hub
 
-    - name: Update deployment status (pending)
-      uses: chrnorm/deployment-status@releases/v1
-      with:
-        token: "${{ github.token }}"
-        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-        state: "pending"
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Update deployment status (pending)
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          state: "pending"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1 
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - name: Download built app
-      uses: actions/download-artifact@v2
-      with:
-        name: dist-folder
-        path: dist/
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Update deployment status (in_progress)
-      uses: chrnorm/deployment-status@releases/v1
-      with:
-        token: "${{ github.token }}"
-        target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-        state: "in_progress"
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Download built app
+        uses: actions/download-artifact@v2
+        with:
+          name: dist-folder
+          path: dist/
 
-    - name: Build Default
-      env:
-        VERSION: ${{ steps.version.outputs.tag }}
-      run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
+      - name: Update deployment status (in_progress)
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          state: "in_progress"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-    - name: Update deployment status (success)
-      if: success()
-      uses: chrnorm/deployment-status@releases/v1
-      with:
-        token: "${{ github.token }}"
-        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
-        state: "success"
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Build Default
+        env:
+          VERSION: ${{ steps.version.outputs.tag }}
+        run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
 
-    - name: Update deployment status (failure)
-      if: failure()
-      uses: chrnorm/deployment-status@releases/v1
-      with:
-        token: "${{ github.token }}"
-        target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
-        state: "failure"
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   github-pages:
     needs: [build]

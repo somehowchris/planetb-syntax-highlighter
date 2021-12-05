@@ -11,8 +11,7 @@ module.exports = (env, argv) => {
       compress: argv.mode === "production",
       port: process.env.PORT || 8000,
     },
-    experiments: {syncWebAssembly: true,
-  },
+    experiments: { syncWebAssembly: true },
     entry: "./bootstrap.js",
     output: {
       path: distPath,
@@ -31,19 +30,17 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
+          type: "asset/resource",
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
-          type: 'asset/resource',
+          type: "asset/resource",
         },
       ],
     },
     plugins: [
       new CopyWebpackPlugin({
-        patterns: [
-          { from: './static', to: distPath },
-        ],
+        patterns: [{ from: "./static", to: distPath }],
       }),
       new WasmPackPlugin({
         crateDirectory: ".",
