@@ -18,7 +18,7 @@ pub struct App {
 }
 
 #[derive(Serialize, Deserialize)]
-pub enum  Language {
+pub enum Language {
     C,
     CSharp,
     Python,
@@ -30,7 +30,7 @@ pub enum  Language {
     Ruby,
     SQL,
     XML,
-    PHP
+    PHP,
 }
 
 impl Language {
@@ -76,14 +76,14 @@ pub struct State {
     code_formatted: Option<String>,
     selected_programming_language: Option<Language>,
     fromatted_programming_language: Option<Language>,
-    show_formatted: bool
+    show_formatted: bool,
 }
 
 pub enum Msg {
     HideInitMessage,
     Format,
     ChooseLangauge(Language),
-    InputCode(String)
+    InputCode(String),
 }
 
 impl Component for App {
@@ -117,17 +117,18 @@ impl Component for App {
         match msg {
             Msg::HideInitMessage => {
                 self.state.show_info = false;
-            },
+            }
             Msg::ChooseLangauge(langauge) => {
                 self.state.selected_programming_language = Some(langauge);
-            },
+            }
             Msg::InputCode(code) => {
                 self.state.current_code = code;
-            },
+            }
             Msg::Format => {
                 self.state.show_formatted = false;
                 self.state.code_formatted = Some(self.state.current_code);
-                self.state.fromatted_programming_language = self.state.selected_programming_language;
+                self.state.fromatted_programming_language =
+                    self.state.selected_programming_language;
                 self.state.show_formatted = true;
                 highlighter::highlight();
             }
@@ -294,13 +295,13 @@ impl Component for App {
                                                                 <img
                                                                     src="./assets/cpp.png"  height="24"
                                                                 />
-                                                                { if self.state.selected_programming_language.is_none() { "Select a Programming language ..." } else { self.state.selected_programming_language.to_name() } }
+                                                                { if self.state.selected_programming_language.is_none() { "Select a Programming language ..." } else { self.state.selected_programming_language.unwrap().to_name() } }
                                                             </a>
                                                             <ul
                                                             class="dropdown-menu"
                                                             aria-labelledby="navbarDropdownMenuLink2"
                                                             >
-                                                                <li 
+                                                                <li
                                                                     onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::C))
                                                                 >
                                                                     <a class="dropdown-item" href="#">
@@ -442,7 +443,7 @@ impl Component for App {
                                                                 id="message"
                                                                 height="100%"
                                                                 style="height: calc(100% - 60px);"
-                                                                onclick=self.link.callback(|e: InputData| Msg::InputCode(e.value))
+                                                                oninput=self.link.callback(|e: InputData| Msg::InputCode(e.value))
                                                                 placeholder="Just paste something and see what happens...."
                                                             ></textarea>
                                                         </div>
@@ -453,15 +454,18 @@ impl Component for App {
                                     </div>
                                 </div>
                             </div>
-                            { self.state.show_formatted && 
-                                html! {
-                                    <div class="col-md-6">
-                                        <div class="card" style="height: 100%;">
-                                            <div class="card-body">
-                                                <textarea name="code" style="width:100%;height:100%" class={self.state.fromatted_programming_language.to_class()}>{self.state.code_formatted}</textarea>
+                            {   if self.state.show_formatted {
+                                    html! {
+                                        <div class="col-md-6">
+                                            <div class="card" style="height: 100%;">
+                                                <div class="card-body">
+                                                    <textarea name="code" style="width:100%;height:100%" class={ if self.state.fromatted_programming_language.is_some() { self.state.fromatted_programming_language.unwrap().to_class()} else {"".to_string()}}>{if self.state.code_formatted.is_some() {self.state.code_formatted.unwrap()} else {"Nothing to show...yet"}}</textarea>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                } else {
+                                    html! {<div></div>}
                                 }
                             }
                         </div>
