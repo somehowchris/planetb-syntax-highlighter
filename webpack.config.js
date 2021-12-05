@@ -6,14 +6,13 @@ const ClosurePlugin = require("closure-webpack-plugin");
 const distPath = path.resolve(__dirname, "dist");
 module.exports = (env, argv) => {
   return {
-    experiments: {
-      asyncWebAssembly: true,
-    },
     devServer: {
       //contentBase: distPath,
       compress: argv.mode === "production",
       port: process.env.PORT || 8000,
     },
+    experiments: {syncWebAssembly: true,
+  },
     entry: "./bootstrap.js",
     output: {
       path: distPath,

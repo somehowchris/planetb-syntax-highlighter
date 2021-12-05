@@ -17,6 +17,7 @@ wasm-bindgen = "0.2.78"
 wasm-logger = "0.2.0"
 wee_alloc = { version = "0.4.5", optional = true }
 yew = "0.18" 
+anyhow = "1.0.51"   
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.28"
@@ -25,4 +26,9 @@ wasm-bindgen-test = "0.3.28"
 version = "0.3.55"
 features = [
   'KeyboardEvent',
+  'Document',
+  'Element',
+  'HtmlElement',
+  'Node',
+  'Window',
 ]
