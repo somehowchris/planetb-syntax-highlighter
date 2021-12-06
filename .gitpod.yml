@@ -1,6 +1,6 @@
 tasks:
   - name: Install and Build
-    init: yarn install && yarn build
+    init: yarn install && yarn build && yarn build:dev
     command: yarn run dev
   - name: Docker
     init: docker build .
