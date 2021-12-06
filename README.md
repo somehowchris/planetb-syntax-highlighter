@@ -1,8 +1,24 @@
 ## About
 
-This template shows how to create a web app using Yew and wasm-pack.
+This is a small app, providing static files to have a frontend to format your code so you can paste it with styles to places like word documents.
+> Copying rich text has some painpoints with firefox, if you're not a old grown firefox user and you experience pain, use a chromium powered browser like brave, edge or chrome
 
-## 🚴 Usage
+Visit [this github page](https://somehowchris.github.io/plantetb-syntax-highlighter/) to have a go. Everything stays inside your browser, if you are conserned about security and code leaking check out the [docker seciton](#docker) to host it yourselfe.
+
+
+## Docker
+
+This app is also built as a `nginx-alpine` docker image for `arm64` and `amd64` platforms. It's available on docker hub as `chweicki/plantetb-syntax-highlighter`. The container will expose it static file server http interface on port __80__.
+
+To use it:
+```
+docker run -p 8000:80 chweicki/plantetb-syntax-highlighter:0.0.1
+```
+> This will start the container and open it to your network on port `8000`
+
+## 🚴 For Developers
+
+This app is built with rust and wasm-webpack. Dependent code such as the `SyntaxHighlighter` is copied from the google archive and as is in JS. If you would like to know more about it [head to this reamde page](./src/highlighter/README.md)
 
 ### 🛠️ Build
 
@@ -29,73 +45,4 @@ yarn run dev
 - [`wee_alloc`](https://github.com/rustwasm/wee_alloc), an allocator optimized
   for small code size.
 
-## Functions provided by highligher
 
-### dp.SyntaxHighlighter.HighlightAll()
-
-```js
-dp.SyntaxHighlighter.HighlightAll(
-  name,
-  [showGutter],
-  [showControls],
-  [collapseAll],
-  [firstLine],
-  [showColumns]
-);
-```
-
-| name         | required | Name of <pre\> and <textarea\> elements to use.                                                                                                               |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| showGutter   | optional | Turns gutter on or off on all processed code blocks                                                                                                           |
-| showControls | optional | Turns controls on or off on all processed <pre>.                                                                                                              |
-| collapseAll  | optional | Turns collapse on or off on all processed <pre>. If showControls is false or switched, this value will be ignored.                                            |
-| firstLine    | optional | Allows to specify the first line where line numbering starts. This is usefull if you want to illustrate where the code block is located relative to the file. |
-| showColumns  | optional | Will show row columns in the first line.                                                                                                                      |
-
-## Configuration Options
-
-| nogutter         | Will display no gutter.                             |
-| ---------------- | --------------------------------------------------- |
-| nocontrols       | Will display no controls at the top.                |
-| collapse         | Will collapse the block by default.                 |
-| firstline[value] | Will begin line count at value. Default value is 1. |
-| showcolumns      | Will show row columns in the first line.            |
-
-## Languages
-
-| Language    | Aliases                 |
-| ----------- | ----------------------- |
-| C++         | cpp, c, c++             |
-| C#          | c#, c-sharp, csharp     |
-| CSS         | css                     |
-| Delphi      | delphi, pascal          |
-| Java        | java                    |
-| Java Script | js, jscript, javascript |
-| PHP         | php                     |
-| Python      | py, python              |
-| Ruby        | rb, ruby, rails, ror    |
-| Sql         | sql                     |
-| VB          | vb, vb.net              |
-| XML/HTML    | xml, html, xhtml, xslt  |
-
-## Blogger Mode
-
-Blogger has a nasty habit of replacing all new lines with <br/> tags which makes it impossible to post code snippets.
-
-To fix the situation version 1.5.1 introduces "Blogger Mode" which can be enabled before a call to HighlightAll() by a call to BloggerMode() like in the example below:
-
-```js
-dp.SyntaxHighlighter.BloggerMode();
-dp.SyntaxHighlighter.HighlightAll("code");
-```
-
-## Copy to clipboard
-
-Version 1.5 makes "copy to clipboard" functionality available to all browsers supporting Flash. It uses a 1x1 Flash movie to copy the code to user's clipboard.
-
-To enable this functionality, you must set ClipboardSwf variable to location of clipboard.swf file. This must be done before calling HighlightAll.
-
-```js
-dp.SyntaxHighlighter.ClipboardSwf = "/flash/clipboard.swf";
-dp.SyntaxHighlighter.HighlightAll("code");
-```
