@@ -21,15 +21,15 @@ pub enum Language {
     C,
     CSharp,
     Python,
-    CSS,
+    Css,
     Delphi,
     VisualBasic,
     Java,
     JavaScript,
     Ruby,
-    SQL,
-    XML,
-    PHP,
+    Sql,
+    Xml,
+    Php,
 }
 
 impl Language {
@@ -38,15 +38,15 @@ impl Language {
             Self::C => "cpp".to_string(),
             Self::CSharp => "csharp".to_string(),
             Self::Python => "python".to_string(),
-            Self::CSS => "css".to_string(),
+            Self::Css => "css".to_string(),
             Self::Delphi => "delphi".to_string(),
             Self::VisualBasic => "vb".to_string(),
             Self::Java => "java".to_string(),
             Self::JavaScript => "js".to_string(),
             Self::Ruby => "ruby".to_string(),
-            Self::SQL => "sql".to_string(),
-            Self::XML => "xml".to_string(),
-            Self::PHP => "php".to_string(),
+            Self::Sql => "sql".to_string(),
+            Self::Xml => "xml".to_string(),
+            Self::Php => "php".to_string(),
         }
     }
 
@@ -55,15 +55,15 @@ impl Language {
             Self::C => "C / C++".to_string(),
             Self::CSharp => "C#".to_string(),
             Self::Python => "Python".to_string(),
-            Self::CSS => "CSS".to_string(),
+            Self::Css => "CSS".to_string(),
             Self::Delphi => "Delphi".to_string(),
             Self::VisualBasic => "VisualBasic".to_string(),
             Self::Java => "Java".to_string(),
             Self::JavaScript => "JavaScript".to_string(),
             Self::Ruby => "Ruby".to_string(),
-            Self::SQL => "SQL".to_string(),
-            Self::XML => "HTML / XML".to_string(),
-            Self::PHP => "PHP".to_string(),
+            Self::Sql => "SQL".to_string(),
+            Self::Xml => "HTML / XML".to_string(),
+            Self::Php => "PHP".to_string(),
         }
     }
     pub fn to_file_path(self) -> String {
@@ -71,15 +71,15 @@ impl Language {
             Self::C => "./assets/images/cpp.png".to_string(),
             Self::CSharp => "./assets/images/csharp.png".to_string(),
             Self::Python => "./assets/images/python.png".to_string(),
-            Self::CSS => "./assets/images/css.png".to_string(),
+            Self::Css => "./assets/images/css.png".to_string(),
             Self::Delphi => "./assets/images/delphi.png".to_string(),
             Self::VisualBasic => "./assets/images/viauslbasic.svg".to_string(),
             Self::Java => "./assets/images/java.png".to_string(),
             Self::JavaScript => "./assets/images/javascript.png".to_string(),
             Self::Ruby => "./assets/images/ruby.png".to_string(),
-            Self::SQL => "./assets/images/sql.png".to_string(),
-            Self::XML => "./assets/images/html.png".to_string(),
-            Self::PHP => "./assets/images/php.png".to_string(),
+            Self::Sql => "./assets/images/sql.png".to_string(),
+            Self::Xml => "./assets/images/html.png".to_string(),
+            Self::Php => "./assets/images/php.png".to_string(),
         }
     }
 }
@@ -107,8 +107,8 @@ impl App {
         let window = web_sys::window().expect("no global `window` exists");
         let document = window.document().expect("should have a document on window");
         let elements = document.query_selector("div.dp-highlighter").unwrap();
-        if elements.is_some() {
-            elements.unwrap().remove();
+        if let Some(element) = elements {
+            element.remove();
         }
         highlighter::highlight();
     }
@@ -130,8 +130,7 @@ impl Component for App {
             programming_language: None,
         };
 
-        if stored_state_json.is_ok() {
-            let stored_state = stored_state_json.unwrap();
+        if let Ok(stored_state) = stored_state_json {
             if stored_state.show_info.is_some() {
                 state.show_info = stored_state.show_info.unwrap();
             }
@@ -163,8 +162,7 @@ impl Component for App {
                 let Json(stored_state_json): Json<Result<StoredState, anyhow::Error>> =
                     self.storage.restore(STATE_KEY);
 
-                if stored_state_json.is_ok() {
-                    let mut stored_state = stored_state_json.unwrap();
+                if let Ok(mut stored_state) = stored_state_json {
                     stored_state.show_info = Some(!dont_show_again);
 
                     self.storage.store(STATE_KEY, Json(&stored_state));
@@ -397,7 +395,7 @@ impl Component for App {
                                                                         </a>
                                                                     </li>
                                                                     <li
-                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::CSS))
+                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Css))
                                                                     >
                                                                         <a class="dropdown-item" href="#">
                                                                         <img
@@ -457,7 +455,7 @@ impl Component for App {
                                                                         </a>
                                                                     </li>
                                                                     <li
-                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::SQL))
+                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Sql))
                                                                     >
                                                                         <a class="dropdown-item" href="#">
                                                                         <img
@@ -467,7 +465,7 @@ impl Component for App {
                                                                         </a>
                                                                     </li>
                                                                     <li
-                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::XML))
+                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Xml))
                                                                     >
                                                                         <a class="dropdown-item" href="#">
                                                                         <img
@@ -477,7 +475,7 @@ impl Component for App {
                                                                         </a>
                                                                     </li>
                                                                     <li
-                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::PHP))
+                                                                        onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Php))
                                                                     >
                                                                         <a class="dropdown-item" href="#">
                                                                         <img
