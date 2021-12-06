@@ -15,7 +15,7 @@ This app is also built as a `nginx-alpine` docker image for `arm64` and `amd64` 
 
 To use it:
 ```
-docker run -p 8000:80 chweicki/plantetb-syntax-highlighter:0.0.1
+docker run -p 8000:80 chweicki/plantetb-syntax-highlighter:0.0.2
 ```
 > This will start the container and open it to your network on port `8000`
 
