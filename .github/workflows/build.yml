@@ -34,4 +34,4 @@ jobs:
         run: yarn build
       - name: Build and push
         id: docker_build
-        run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --load .
+        run: docker build .
