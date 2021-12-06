@@ -242,27 +242,10 @@ accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-acorn-dynamic-import@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/acorn-dynamic-import/-/acorn-dynamic-import-2.0.2.tgz"
-  integrity sha1-x1K9IQvvZ5UBtsbLf8hPj0cVjMQ=
-  dependencies:
-    acorn "^4.0.3"
-
 acorn-import-assertions@^1.7.6:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/acorn-import-assertions/-/acorn-import-assertions-1.8.0.tgz#ba2b5939ce62c238db6d93d81c9b111b29b855e9"
   integrity sha512-m7VZ3jwz4eK6A4Vtt8Ew1/mNbP24u0FhdyfA7fSvnJR6LMdfOYnmuIrrJAgrYfYJ10F/otaHTtrtrtmHdMNzEw==
-
-acorn@^4.0.3:
-  version "4.0.13"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-4.0.13.tgz"
-  integrity sha1-EFSVrlNh1pe9GVyCUZLhrX8lN4c=
-
-acorn@^5.0.0:
-  version "5.7.4"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-5.7.4.tgz"
-  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^8.4.1:
   version "8.6.0"
@@ -277,11 +260,6 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-ajv-errors@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/ajv-errors/-/ajv-errors-1.0.1.tgz"
-  integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
-
 ajv-formats@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.1.tgz#6e669400659eb74973bbf2e33327180a0996b520"
@@ -289,7 +267,7 @@ ajv-formats@^2.1.1:
   dependencies:
     ajv "^8.0.0"
 
-ajv-keywords@^3.1.0, ajv-keywords@^3.5.2:
+ajv-keywords@^3.5.2:
   version "3.5.2"
   resolved "https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-3.5.2.tgz"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
@@ -301,7 +279,7 @@ ajv-keywords@^5.0.0:
   dependencies:
     fast-deep-equal "^3.1.3"
 
-ajv@^6.1.0, ajv@^6.12.5:
+ajv@^6.12.5:
   version "6.12.6"
   resolved "https://registry.npmjs.org/ajv/-/ajv-6.12.6.tgz"
   integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
@@ -483,7 +461,7 @@ caniuse-lite@^1.0.30001280:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001284.tgz#d3653929ded898cd0c1f09a56fd8ca6952df4fca"
   integrity sha512-t28SKa7g6kiIQi6NHeOcKrOrGMzCRrXvlasPwWC26TH2QNdglgzQIRUuJ0cR3NeQPH+5jpuveeeSFDLm2zbkEw==
 
-chalk@2.x, chalk@^2.4.1:
+chalk@^2.4.1:
   version "2.4.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.2.tgz"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -524,11 +502,6 @@ clean-stack@^2.0.0:
   resolved "https://registry.npmjs.org/clean-stack/-/clean-stack-2.2.0.tgz"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-clone-buffer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/clone-buffer/-/clone-buffer-1.0.0.tgz"
-  integrity sha1-4+JbIHrE5wGvch4staFnksrD3Fg=
-
 clone-deep@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/clone-deep/-/clone-deep-4.0.1.tgz#c19fd9bdbbf85942b4fd979c84dcf7d5f07c2387"
@@ -537,36 +510,6 @@ clone-deep@^4.0.1:
     is-plain-object "^2.0.4"
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
-
-clone-stats@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/clone-stats/-/clone-stats-1.0.0.tgz"
-  integrity sha1-s3gt/4u1R04Yuba/D9/ngvh3doA=
-
-clone@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz"
-  integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
-
-cloneable-readable@^1.0.0:
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/cloneable-readable/-/cloneable-readable-1.1.3.tgz"
-  integrity sha512-2EF8zTQOxYq70Y4XKtorQupqF0m49MBz2/yf5Bj+MHjvpG3Hy7sImifnqD6UA+TKYxeSV+u6qqQPawN5UvnpKQ==
-  dependencies:
-    inherits "^2.0.1"
-    process-nextick-args "^2.0.0"
-    readable-stream "^2.3.5"
-
-closure-webpack-plugin@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/closure-webpack-plugin/-/closure-webpack-plugin-2.5.0.tgz#c4c5d7e8c02dbefb67c5b482b50bd36e88bb56b0"
-  integrity sha512-mp18Dss/NEj6EazNsT7EiRUCR4wXWFawrIe9Mm2epqELkJWZldVOs+vSPz8y1T2qB4pBYwQuQK2jruDXksOBkg==
-  dependencies:
-    acorn "^5.0.0"
-    acorn-dynamic-import "^2.0.0"
-    schema-utils "1.x"
-    unquoted-property-validator "^1.0.2"
-    webpack-sources "1.x"
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -1164,41 +1107,6 @@ globby@^12.0.2:
     merge2 "^1.4.1"
     slash "^4.0.0"
 
-google-closure-compiler-java@^20211107.0.0:
-  version "20211107.0.0"
-  resolved "https://registry.npmjs.org/google-closure-compiler-java/-/google-closure-compiler-java-20211107.0.0.tgz"
-  integrity sha512-WavJ1Rx+Fv98rNKClQD6b+GMCVqws7GkbI7sdxiIbrzeNiXwa5K8TKBaqyUx/G1myQ6+gml6GULgJi7nsBOXVQ==
-
-google-closure-compiler-linux@^20211107.0.0:
-  version "20211107.0.0"
-  resolved "https://registry.npmjs.org/google-closure-compiler-linux/-/google-closure-compiler-linux-20211107.0.0.tgz"
-  integrity sha512-ULk90c4IiuTcHZ892eFusN/WYfY+gvopy38msrmUnYrmLjq5Ssef7NtDRUhYe9SIX7Dd5NM2jo7u7XjEu/4NCQ==
-
-google-closure-compiler-osx@^20211107.0.0:
-  version "20211107.0.0"
-  resolved "https://registry.yarnpkg.com/google-closure-compiler-osx/-/google-closure-compiler-osx-20211107.0.0.tgz#6afbfb4d90a395c7dd115eb590974a3c8523d046"
-  integrity sha512-nTDR6oAQ6GHT1UakZc4OdyZh2AqwKce7aZQS+XLWojh98SEq7JS5dyEkFBK6a1lqWyOMLH2Mrr3XhNobY/umbA==
-
-google-closure-compiler-windows@^20211107.0.0:
-  version "20211107.0.0"
-  resolved "https://registry.yarnpkg.com/google-closure-compiler-windows/-/google-closure-compiler-windows-20211107.0.0.tgz#de8f9e06a78a3abb6d13a1a0d893480746a3d967"
-  integrity sha512-0G7Dd/ZoSPS6pSsOdA6N4LJU0zJddHcS+PiNixQVN50kuHH3DjfI+gCyLx7CkJUZEuGiGHDVkc0ZmKBR5iq4QA==
-
-google-closure-compiler@20211107.0.0:
-  version "20211107.0.0"
-  resolved "https://registry.npmjs.org/google-closure-compiler/-/google-closure-compiler-20211107.0.0.tgz"
-  integrity sha512-CVP18mjlTz+T8D0J2/vNGAkCRd9cZb06kRb0Fp/VXntFvcYdNWNs780vkiplNGtuxyI6Kn3NQPlZZutFuME4ww==
-  dependencies:
-    chalk "2.x"
-    google-closure-compiler-java "^20211107.0.0"
-    minimist "1.x"
-    vinyl "2.x"
-    vinyl-sourcemaps-apply "^0.2.0"
-  optionalDependencies:
-    google-closure-compiler-linux "^20211107.0.0"
-    google-closure-compiler-osx "^20211107.0.0"
-    google-closure-compiler-windows "^20211107.0.0"
-
 graceful-fs@^4.1.2:
   version "4.2.4"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.4.tgz"
@@ -1674,7 +1582,7 @@ minimatch@^3.0.4:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@1.x, minimist@^1.2.5:
+minimist@^1.2.5:
   version "1.2.5"
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.5.tgz"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
@@ -1998,7 +1906,7 @@ postcss@^8.2.15:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
-process-nextick-args@^2.0.0, process-nextick-args@~2.0.0:
+process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
@@ -2053,7 +1961,7 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-readable-stream@^2.0.1, readable-stream@^2.3.5:
+readable-stream@^2.0.1:
   version "2.3.7"
   resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.7.tgz"
   integrity sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==
@@ -2096,16 +2004,6 @@ regexp.prototype.flags@^1.2.0:
   dependencies:
     define-properties "^1.1.3"
     es-abstract "^1.17.0-next.1"
-
-remove-trailing-separator@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz"
-  integrity sha1-wkvOKig62tW8P1jg1IJJuSN52O8=
-
-replace-ext@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/replace-ext/-/replace-ext-1.0.1.tgz"
-  integrity sha512-yD5BHCe7quCgBph4rMQ+0KkIRKwWCrHDOX1p1Gp6HwjPM5kVoCdKGNhN7ydqqsX6lJEnQDKZ/tFMiEdQ1dvPEw==
 
 require-from-string@^2.0.2:
   version "2.0.2"
@@ -2189,15 +2087,6 @@ sass@1.44.0:
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
-
-schema-utils@1.x:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/schema-utils/-/schema-utils-1.0.0.tgz"
-  integrity sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
-  dependencies:
-    ajv "^6.1.0"
-    ajv-errors "^1.0.0"
-    ajv-keywords "^3.1.0"
 
 schema-utils@^3.1.0, schema-utils@^3.1.1:
   version "3.1.1"
@@ -2339,11 +2228,6 @@ sockjs@^0.3.21:
     uuid "^8.3.2"
     websocket-driver "^0.7.4"
 
-source-list-map@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/source-list-map/-/source-list-map-2.0.1.tgz"
-  integrity sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==
-
 source-map-js@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.1.tgz#a1741c131e3c77d048252adfa24e23b908670caf"
@@ -2357,12 +2241,7 @@ source-map-support@~0.5.20:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
 
-source-map@^0.5.1:
-  version "0.5.7"
-  resolved "https://registry.npmjs.org/source-map/-/source-map-0.5.7.tgz"
-  integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
-
-source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
@@ -2538,11 +2417,6 @@ unpipe@1.0.0, unpipe@~1.0.0:
   resolved "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz"
   integrity sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=
 
-unquoted-property-validator@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/unquoted-property-validator/-/unquoted-property-validator-1.1.0.tgz"
-  integrity sha512-ZWeQoYZ7HN8DCLeaowNv2GvZIXqJptKB1uUWd08ZYc1qAmJt8tXh9nck26aoYmhJtE3jCjDqdqEfUTqcJ0R7bw==
-
 uri-js@^4.2.2:
   version "4.2.2"
   resolved "https://registry.npmjs.org/uri-js/-/uri-js-4.2.2.tgz"
@@ -2577,25 +2451,6 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
-
-vinyl-sourcemaps-apply@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz"
-  integrity sha1-q2VJ1h0XLCsbh75cUI0jnI74dwU=
-  dependencies:
-    source-map "^0.5.1"
-
-vinyl@2.x:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/vinyl/-/vinyl-2.2.1.tgz"
-  integrity sha512-LII3bXRFBZLlezoG5FfZVcXflZgWP/4dCwKtxd5ky9+LOtM4CS3bIRQsmR1KMnMW07jpE8fqR2lcxPZ+8sJIcw==
-  dependencies:
-    clone "^2.1.1"
-    clone-buffer "^1.0.0"
-    clone-stats "^1.0.0"
-    cloneable-readable "^1.0.0"
-    remove-trailing-separator "^1.0.1"
-    replace-ext "^1.0.0"
 
 wasm-pack@0.10.1:
   version "0.10.1"
@@ -2686,14 +2541,6 @@ webpack-merge@^5.7.3:
   dependencies:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
-
-webpack-sources@1.x:
-  version "1.4.3"
-  resolved "https://registry.npmjs.org/webpack-sources/-/webpack-sources-1.4.3.tgz"
-  integrity sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==
-  dependencies:
-    source-list-map "^2.0.0"
-    source-map "~0.6.1"
 
 webpack-sources@^3.2.2:
   version "3.2.2"

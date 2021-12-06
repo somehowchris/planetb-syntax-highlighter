@@ -1,7 +1,6 @@
 const path = require("path");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const ClosurePlugin = require("closure-webpack-plugin");
 
 const distPath = path.resolve(__dirname, "dist");
 module.exports = (env, argv) => {
