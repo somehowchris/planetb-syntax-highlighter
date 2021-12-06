@@ -11,7 +11,6 @@
     "closure-webpack-plugin": "2.5.0",
     "copy-webpack-plugin": "10.0.0",
     "css-loader": "6.5.1",
-    "google-closure-compiler": "20211107.0.0",
     "sass": "1.44.0",
     "sass-loader": "12.3.0",
     "style-loader": "3.3.1",

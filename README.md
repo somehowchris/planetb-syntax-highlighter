@@ -1,3 +1,6 @@
+# PlanetB SyntaxHighlighter
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/somehowchris/plantetb-syntax-highlighter)
+
 ## About
 
 This is a small app, providing static files to have a frontend to format your code so you can paste it with styles to places like word documents.
