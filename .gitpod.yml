@@ -23,6 +23,9 @@ vscode:
     - bierner.markdown-preview-github-styles
     - sndst00m.markdown-github-dark-pack
 
+image:
+  file: .gitpod.Dockerfile
+
 github:
   prebuilds:
     # enable for the default branch (defaults to true)
