@@ -2,6 +2,7 @@ use log::*;
 use serde_derive::{Deserialize, Serialize};
 
 use yew::prelude::*;
+use yew::{web_sys::Element, NodeRef};
 
 use yew::format::Json;
 use yew::services::storage::{Area, StorageService};
@@ -14,6 +15,7 @@ pub struct App {
     link: ComponentLink<Self>,
     storage: StorageService,
     state: State,
+    pub textarea_ref: NodeRef,
 }
 
 #[derive(Serialize, Deserialize, Copy, Clone)]
@@ -123,6 +125,8 @@ impl Component for App {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let storage = StorageService::new(Area::Local).unwrap();
 
+        let textarea_ref = NodeRef::default();
+
         let Json(stored_state_json): Json<Result<StoredState, anyhow::Error>> =
             storage.restore(STATE_KEY);
 
@@ -142,6 +146,7 @@ impl Component for App {
             link,
             storage,
             state,
+            textarea_ref,
         }
     }
 
@@ -198,7 +203,6 @@ impl Component for App {
                     style="background-image: url(./assets/images/background.svg)"
                     loading="lazy"
                 >
-                    <span class="mask"></span>
                     {
                         html! {
                             <div class="container-fluid" hidden={!self.state.show_info}>
@@ -320,10 +324,10 @@ impl Component for App {
                     }
                     {
                         html! {
-                            <div class="container-fluid" style="height: 75vh" hidden={self.state.show_info}>
-                                <div class="row" style="height: 100%;">
+                            <div class="container-fluid" style="height: 100vh;overflow-y: scroll" hidden={self.state.show_info}>
+                                <div class="row" style="min-height: 87.5%;margin-top:12.5vh;height: auto;">
                                     <div class="col-md-6">
-                                        <div class="card" style="height: 100%;">
+                                        <div class="card" style="min-height: 75%;">
                                             <div class="card-body">
                                                 {
                                                     html!{
@@ -439,14 +443,14 @@ impl Component for App {
                                                                     </div>
                                                                 </div>
                                                                 <div class="row" style="height: 100%;">
-                                                                    <div class="col-12" style="padding-right: 0;height: 100%">
+                                                                    <div class="col-12" style="padding-right: 8px;height: 100%;margin-bottom: 16px;">
                                                                         <div class="input-group-outline input-group" style="height: 100%;">
                                                                             <textarea
+                                                                                ref=self.textarea_ref.clone()
                                                                                 name="message"
                                                                                 class="form-control"
                                                                                 id="message"
-                                                                                height="100%"
-                                                                                style="height: calc(100% - 60px);"
+                                                                                style={ format!("min-height: calc(75% - 16px);overflow-x: scroll; overflow-y: hidden;height: {}", if let Some(element) = self.textarea_ref.cast::<Element>(){format!("{}px", element.scroll_height()+16)} else {"calc(75% - 16px)".to_string()}) }
                                                                                 oninput=self.link.callback(|e: InputData| Msg::InputCode(e.value))
                                                                                 placeholder="Just paste something and see what happens...."
                                                                             ></textarea>
@@ -463,7 +467,7 @@ impl Component for App {
                                     {
                                         html! {
                                             <div class="col-md-6">
-                                                <div class="card" style="height: 100%;">
+                                                <div class="card" style="min-height: 75%;">
                                                     <div class="card-body">
                                                         <pre name="code" style="width:100%;height:100%" class={ if self.state.programming_language.is_some() { self.state.programming_language.unwrap().to_class()} else {"".to_string()}}>{if !self.state.code.is_empty() {self.state.code.as_str()} else {"Nothing to show...yet"}}</pre>
                                                     </div>
