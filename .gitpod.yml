@@ -1,9 +1,15 @@
 tasks:
   - name: Install and Build
-    init: yarn install && yarn build && yarn build:dev
+    init: |
+      yarn install
+      yarn build
+      yarn build:dev
     command: yarn run dev
   - name: Docker
-    init: yarn install && yarn build && docker build .
+    init: |
+      yarn install
+      yarn build 
+      docker build .
   - name: Rust tools
     init: |
       cargo install --locked cargo-outdated

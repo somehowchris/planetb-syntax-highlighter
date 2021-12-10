@@ -245,7 +245,6 @@ impl Component for App {
                                                                                 <br />
                                                                                 <br />
                                                                             </p>
-
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
                                                                                     {"It supports the following languages:"}
@@ -331,8 +330,8 @@ impl Component for App {
                                             <div class="card-body">
                                                 {
                                                     html!{
-                                                        <div style="height:100%">
-                                                            <div class="col-md-12" style="height: 100%">
+                                                        <div class="row">
+                                                            <div class="col-md-12 h-100">
                                                                 <div class="row">
                                                                     <div class="col-md-8 col-lg-7">
                                                                         <div class="dropdown w-100">
@@ -443,14 +442,14 @@ impl Component for App {
                                                                     </div>
                                                                 </div>
                                                                 <div class="row" style="height: 100%;">
-                                                                    <div class="col-12" style="padding-right: 8px;height: 100%;margin-bottom: 16px;">
+                                                                    <div class="col-12" style="padding-right: 8px;height: 100%;">
                                                                         <div class="input-group-outline input-group" style="height: 100%;">
                                                                             <textarea
                                                                                 ref=self.textarea_ref.clone()
                                                                                 name="message"
                                                                                 class="form-control"
                                                                                 id="message"
-                                                                                style={ format!("min-height: calc(75% - 16px);overflow-x: scroll; overflow-y: hidden;height: {}", if let Some(element) = self.textarea_ref.cast::<Element>(){format!("{}px", element.scroll_height()+16)} else {"calc(75% - 16px)".to_string()}) }
+                                                                                style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{}", if let Some(element) = self.textarea_ref.cast::<Element>(){format!("height: {}px", element.scroll_height())} else {"".to_string()}) }
                                                                                 oninput=self.link.callback(|e: InputData| Msg::InputCode(e.value))
                                                                                 placeholder="Just paste something and see what happens...."
                                                                             ></textarea>
