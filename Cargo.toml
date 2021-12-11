@@ -16,7 +16,7 @@ serde_derive = "1.0.131"
 wasm-bindgen = "0.2.78" 
 wasm-logger = "0.2.0"
 wee_alloc = { version = "0.4.5", optional = true }
-yew = "0.18" 
+yew = "0.19" 
 anyhow = "1.0.51"   
 
 [dev-dependencies]
