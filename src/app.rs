@@ -1,19 +1,19 @@
-use log::*;
+use log::debug;
 use serde_derive::{Deserialize, Serialize};
 
+use web_sys::Element;
 use yew::prelude::*;
-use yew::{web_sys::Element, NodeRef};
-
-use yew::format::Json;
-use yew::services::storage::{Area, StorageService};
+use yew::NodeRef;
 
 mod highlighter;
+use gloo_storage::LocalStorage;
+use gloo_storage::Storage;
+
+use web_sys::HtmlInputElement;
 
 const STATE_KEY: &str = "codestyle.state";
 
 pub struct App {
-    link: ComponentLink<Self>,
-    storage: StorageService,
     state: State,
     pub textarea_ref: NodeRef,
 }
@@ -100,8 +100,8 @@ pub struct StoredState {
 
 pub enum Msg {
     HideInitMessage(bool),
-    ChooseLangauge(Language),
-    InputCode(String),
+    ChooseLanguage(Language),
+    InputCode,
 }
 
 impl App {
@@ -122,13 +122,8 @@ impl Component for App {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let storage = StorageService::new(Area::Local).unwrap();
-
+    fn create(_ctx: &yew::Context<Self>) -> Self {
         let textarea_ref = NodeRef::default();
-
-        let Json(stored_state_json): Json<Result<StoredState, anyhow::Error>> =
-            storage.restore(STATE_KEY);
 
         let mut state = State {
             show_info: true,
@@ -136,66 +131,68 @@ impl Component for App {
             programming_language: None,
         };
 
-        if let Ok(stored_state) = stored_state_json {
+        let local_storage: Result<StoredState, _> = LocalStorage::get(STATE_KEY);
+
+        if let Ok(stored_state) = local_storage {
             if stored_state.show_info.is_some() {
                 state.show_info = stored_state.show_info.unwrap();
             }
         }
 
         App {
-            link,
-            storage,
             state,
             textarea_ref,
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, _ctx: &yew::Context<Self>, _first_render: bool) {
         debug!("Rendering code change");
         if !self.state.code.is_empty() && self.state.programming_language.is_some() {
             self.format_code();
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::HideInitMessage(dont_show_again) => {
                 self.state.show_info = false;
 
-                let Json(stored_state_json): Json<Result<StoredState, anyhow::Error>> =
-                    self.storage.restore(STATE_KEY);
+                let local_storage: Result<StoredState, _> = LocalStorage::get(STATE_KEY);
 
-                if let Ok(mut stored_state) = stored_state_json {
+                if let Ok(mut stored_state) = local_storage {
                     stored_state.show_info = Some(!dont_show_again);
 
-                    self.storage.store(STATE_KEY, Json(&stored_state));
+                    LocalStorage::set(STATE_KEY, stored_state).unwrap();
                 } else {
-                    let state = StoredState {
-                        show_info: Some(!dont_show_again),
-                    };
-
-                    self.storage.store(STATE_KEY, Json(&state));
+                    LocalStorage::set(
+                        STATE_KEY,
+                        StoredState {
+                            show_info: Some(!dont_show_again),
+                        },
+                    )
+                    .unwrap();
                 }
                 true
             }
-            Msg::ChooseLangauge(langauge) => {
-                self.state.programming_language = Some(langauge);
-                debug!("Selected {}", langauge.to_name());
+            Msg::ChooseLanguage(language) => {
+                self.state.programming_language = Some(language);
+                debug!("Selected {}", language.to_name());
                 true
             }
-            Msg::InputCode(code) => {
-                self.state.code = code;
+            Msg::InputCode => {
+                self.state.code = self
+                    .textarea_ref
+                    .cast::<HtmlInputElement>()
+                    .unwrap()
+                    .value();
                 true
             }
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &yew::Context<Self>) -> Html {
         debug!("rendered!");
+
         html! {
             <header>
                 <div
@@ -294,7 +291,7 @@ impl Component for App {
                                                                                 <button
                                                                                     type="button"
                                                                                     class="btn btn-outline-danger"
-                                                                                    onclick=self.link.callback(|_| Msg::HideInitMessage(true))
+                                                                                    onclick={ctx.link().callback(|_| Msg::HideInitMessage(true))}
                                                                                     style="margin-right: 8px;"
                                                                                 >
                                                                                     {"Don't show me this again"}
@@ -302,7 +299,7 @@ impl Component for App {
                                                                                 <button
                                                                                     type="button"
                                                                                     class="btn btn-outline-success"
-                                                                                    onclick=self.link.callback(|_| Msg::HideInitMessage(false))
+                                                                                    onclick={ctx.link().callback(|_| Msg::HideInitMessage(false))}
                                                                                 >
                                                                                     {"Let's go formatting"}
                                                                                 </button>
@@ -361,73 +358,73 @@ impl Component for App {
                                                                                 class="dropdown-menu"
                                                                                 aria-labelledby="navbarDropdownMenuLink2"
                                                                             >
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::C))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::C))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/cpp.png" height="24" />
                                                                                         {"   C++ / C"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::CSharp))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::CSharp))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/csharp.png"  height="24"/>
                                                                                         {"   C#"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Python))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Python))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/python.png" height="24"/>
                                                                                         {"  Python"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Css))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Css))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/css.png"  height="24" />
                                                                                         {"  CSS"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Delphi)) >
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Delphi))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/delphi.png" height="24" />
                                                                                         {"  Delphi"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::VisualBasic)) >
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::VisualBasic))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/viauslbasic.svg" height="24" />
                                                                                         {"  VisualBasic"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Java)) >
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Java))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/java.png" height="24" />
                                                                                         {"  Java"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::JavaScript))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::JavaScript))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/javascript.png" height="24"/>
                                                                                         {"  JavaScript"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Ruby)) >
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Ruby))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/ruby.png" height="24" />
                                                                                         {"  Ruby"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Sql)) >
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Sql))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/sql.png" height="24" />
                                                                                         {"  SQL"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Xml))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Xml))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/html.png" height="24"/>
                                                                                         {"  XML/HTML"}
                                                                                     </a>
                                                                                 </li>
-                                                                                <li onclick=self.link.callback(|_| Msg::ChooseLangauge(Language::Php))>
+                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Php))}>
                                                                                     <a class="dropdown-item" href="#">
                                                                                         <img src="./assets/images/php.png" height="24"/>
                                                                                         {"  PHP"}
@@ -445,12 +442,12 @@ impl Component for App {
                                                                     <div class="col-12" style="padding-right: 8px;height: 100%;">
                                                                         <div class="input-group-outline input-group" style="height: 100%;">
                                                                             <textarea
-                                                                                ref=self.textarea_ref.clone()
+                                                                                ref={self.textarea_ref.clone()}
                                                                                 name="message"
                                                                                 class="form-control"
                                                                                 id="message"
                                                                                 style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{}", if let Some(element) = self.textarea_ref.cast::<Element>(){format!("height: {}px", element.scroll_height())} else {"".to_string()}) }
-                                                                                oninput=self.link.callback(|e: InputData| Msg::InputCode(e.value))
+                                                                                oninput={ctx.link().callback(|_e| Msg::InputCode)}
                                                                                 placeholder="Just paste something and see what happens...."
                                                                             ></textarea>
                                                                         </div>
