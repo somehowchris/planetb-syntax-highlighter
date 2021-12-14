@@ -1,6 +1,8 @@
 tasks:
   - name: Install and Build
     init: |
+      npm i -g npm
+      npm i -g yarn
       yarn install
       yarn build
       yarn build:dev
