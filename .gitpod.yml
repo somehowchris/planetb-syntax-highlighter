@@ -4,7 +4,6 @@ tasks:
       npm i -g npm
       npm i -g yarn
       yarn install
-      yarn build
       yarn build:dev
     command: yarn run dev
   - name: Docker
@@ -30,9 +29,6 @@ vscode:
   extensions:
     - bierner.markdown-preview-github-styles
     - sndst00m.markdown-github-dark-pack
-
-image:
-  file: .gitpod.Dockerfile
 
 github:
   prebuilds:
