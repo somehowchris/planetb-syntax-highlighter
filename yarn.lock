@@ -2439,10 +2439,10 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-wasm-pack@0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/wasm-pack/-/wasm-pack-0.10.1.tgz#5d50649aee827192c42c941991856d47b90cff27"
-  integrity sha512-bw480KaaJQhL6UX8wAm6YCO497uaULDrsvUey3EB86dKAfFc6qCGVN1kItcwUklEeufonwo9mwz9/fy9xLOPtQ==
+wasm-pack@0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/wasm-pack/-/wasm-pack-0.10.2.tgz#38efc358b2e3e06f313a9781b6f68c76fda66859"
+  integrity sha512-Kuh8XAArQNVoikMUenjDs4+g6LpktgfXgqlp03G2dJKDBokA7Y8Cx6MDCnvREzNnmprk9IohHytwycVSemwe/w==
   dependencies:
     binary-install "^0.1.0"
 
