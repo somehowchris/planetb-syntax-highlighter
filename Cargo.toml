@@ -11,7 +11,7 @@ crate-type = ["cdylib", "rlib"]
 log = "=0.4.14"
 strum = "=0.23.0"   
 strum_macros = "=0.23.1" 
-serde = "=1.0.132" 
+serde = "=1.0.133" 
 serde_derive = "=1.0.133"  
 wasm-bindgen = "=0.2.78" 
 wasm-logger = "=0.2.0"
