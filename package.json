@@ -19,6 +19,6 @@
     "webpack-dev-server": "4.7.2"
   },
   "dependencies": {
-    "@popperjs/core": "2.11.1"
+    "@popperjs/core": "2.11.2"
   }
 }
