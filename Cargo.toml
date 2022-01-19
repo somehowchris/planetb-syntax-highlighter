@@ -21,7 +21,7 @@ anyhow = "=1.0.52"
 gloo-storage = "=0.2.0"
 
 [dev-dependencies]
-wasm-bindgen-test = "=0.3.28"
+wasm-bindgen-test = "=0.3.29"
 
 [dependencies.web-sys]
 version = "=0.3.55"
