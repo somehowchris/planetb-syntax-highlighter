@@ -10,7 +10,7 @@
     "@wasm-tool/wasm-pack-plugin": "1.6.0",
     "copy-webpack-plugin": "10.2.4",
     "css-loader": "6.5.1",
-    "sass": "1.49.4",
+    "sass": "1.49.7",
     "sass-loader": "12.4.0",
     "style-loader": "3.3.1",
     "wasm-pack": "0.10.2",
