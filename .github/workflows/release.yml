@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Upload app artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dist-folder
           path: dist
