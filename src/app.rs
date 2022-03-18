@@ -236,7 +236,7 @@ impl Component for App {
                                                                                 <br />
                                                                                 <br />
                                                                                 {"All the code is held inside your browser, nothing leaves it. If you still worry and would like to host it yourselves, have a look at the docker part in"}
-                                                                                <a href="https://github.com/somehowchris/plantetb-syntax-highlighter#docker">
+                                                                                <a href="https://github.com/somehowchris/planetbb-syntax-highlighter#docker">
                                                                                     {"this github repository"}
                                                                                 </a>
                                                                                 <br />

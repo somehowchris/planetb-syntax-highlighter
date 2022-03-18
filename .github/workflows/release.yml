@@ -87,14 +87,14 @@ jobs:
       - name: Build Default
         env:
           VERSION: ${{ steps.version.outputs.tag }}
-        run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/plantetb-syntax-highlighter:$VERSION .
+        run: docker buildx build --platform=linux/amd64,linux/arm64/v8 --push --tag chweicki/planetbb-syntax-highlighter:$VERSION .
 
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+          target_url: https://hub.docker.com/repository/docker/chweicki/planetbb-syntax-highlighter
           state: "success"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
@@ -103,7 +103,7 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://hub.docker.com/repository/docker/chweicki/plantetb-syntax-highlighter
+          target_url: https://hub.docker.com/repository/docker/chweicki/planetbb-syntax-highlighter
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 

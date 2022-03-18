@@ -1,5 +1,5 @@
 [package]
-name = "plantetb-syntax-highligher"
+name = "planetbb-syntax-highligher"
 version = "0.1.0"
 authors = ["Christof Weickhardt <christof@weickhardt.ch"]
 edition = "2021"
