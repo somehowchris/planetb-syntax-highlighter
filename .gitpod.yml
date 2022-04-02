@@ -1,13 +1,14 @@
 tasks:
-  - name: Install and Build
-    init: |
-      npm i -g npm
-      npm i -g yarn
-      yarn install
-      yarn build:dev
-      yarn build
-      docker build .
-    command: yarn run dev
+  - init: |
+      cargo install trunk --git https://github.com/thedodd/trunk.git
+      cargo install wasm-bindgen-cli
+      rustup target add wasm32-unknown-unknown
+      sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
+      sudo chmod +x /usr/local/bin/minify
+      cargo install minifier
+    command: |
+      rustup target add wasm32-unknown-unknown
+      trunk serve
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:

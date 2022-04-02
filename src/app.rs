@@ -5,92 +5,115 @@ use web_sys::Element;
 use yew::prelude::*;
 use yew::NodeRef;
 
-mod highlighter;
 use gloo_storage::LocalStorage;
 use gloo_storage::Storage;
 
+use crate::utils::{highlighter, images::build_webp_url};
 use web_sys::HtmlInputElement;
 
 const STATE_KEY: &str = "codestyle.state";
 
 pub struct App {
     state: State,
-    pub textarea_ref: NodeRef,
+    textarea_ref: NodeRef,
+    webp_support: Option<bool>,
 }
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
-pub enum Language {
-    C,
-    CSharp,
-    Python,
-    Css,
-    Delphi,
-    VisualBasic,
-    Java,
-    JavaScript,
-    Ruby,
-    Sql,
-    Xml,
-    Php,
+#[derive(Deserialize, Serialize, Clone, Copy)]
+pub struct ProgrammingLanguage {
+    pub name: &'static str,
+    pub css_class: &'static str,
+    pub image_file: &'static str,
+    pub image_file_extension: &'static str,
 }
 
-impl Language {
-    pub fn to_class(self) -> String {
-        match self {
-            Self::C => "cpp".to_string(),
-            Self::CSharp => "csharp".to_string(),
-            Self::Python => "python".to_string(),
-            Self::Css => "css".to_string(),
-            Self::Delphi => "delphi".to_string(),
-            Self::VisualBasic => "vb".to_string(),
-            Self::Java => "java".to_string(),
-            Self::JavaScript => "js".to_string(),
-            Self::Ruby => "ruby".to_string(),
-            Self::Sql => "sql".to_string(),
-            Self::Xml => "xml".to_string(),
-            Self::Php => "php".to_string(),
-        }
-    }
-
-    pub fn to_name(self) -> String {
-        match self {
-            Self::C => "C / C++".to_string(),
-            Self::CSharp => "C#".to_string(),
-            Self::Python => "Python".to_string(),
-            Self::Css => "CSS".to_string(),
-            Self::Delphi => "Delphi".to_string(),
-            Self::VisualBasic => "VisualBasic".to_string(),
-            Self::Java => "Java".to_string(),
-            Self::JavaScript => "JavaScript".to_string(),
-            Self::Ruby => "Ruby".to_string(),
-            Self::Sql => "SQL".to_string(),
-            Self::Xml => "HTML / XML".to_string(),
-            Self::Php => "PHP".to_string(),
-        }
-    }
-    pub fn to_file_path(self) -> String {
-        match self {
-            Self::C => "./assets/images/cpp.png".to_string(),
-            Self::CSharp => "./assets/images/csharp.png".to_string(),
-            Self::Python => "./assets/images/python.png".to_string(),
-            Self::Css => "./assets/images/css.png".to_string(),
-            Self::Delphi => "./assets/images/delphi.png".to_string(),
-            Self::VisualBasic => "./assets/images/viauslbasic.svg".to_string(),
-            Self::Java => "./assets/images/java.png".to_string(),
-            Self::JavaScript => "./assets/images/javascript.png".to_string(),
-            Self::Ruby => "./assets/images/ruby.png".to_string(),
-            Self::Sql => "./assets/images/sql.png".to_string(),
-            Self::Xml => "./assets/images/html.png".to_string(),
-            Self::Php => "./assets/images/php.png".to_string(),
-        }
+impl ProgrammingLanguage {
+    fn to_img_url(&self, webp_support: bool) -> String {
+        build_webp_url(self.image_file, self.image_file_extension, webp_support)
     }
 }
+
+const PROGRAMMING_LANGUAGES: [ProgrammingLanguage; 12] = [
+    ProgrammingLanguage {
+        name: "C / C++",
+        css_class: "cpp",
+        image_file: "images/cpp",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "C#",
+        css_class: "csharp",
+        image_file: "images/csharp",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "Python",
+        css_class: "python",
+        image_file: "images/python",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "CSS",
+        css_class: "css",
+        image_file: "images/css",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "Delphi",
+        css_class: "delphi",
+        image_file: "images/delphi",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "VisualBasic",
+        css_class: "vb",
+        image_file: "images/viauslbasic",
+        image_file_extension: "svg",
+    },
+    ProgrammingLanguage {
+        name: "Java",
+        css_class: "java",
+        image_file: "images/java",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "JavaScript",
+        css_class: "js",
+        image_file: "images/javascript",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "Ruby",
+        css_class: "ruby",
+        image_file: "images/ruby",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "SQL",
+        css_class: "sql",
+        image_file: "images/sql",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "HTML / XML",
+        css_class: "xml",
+        image_file: "images/html",
+        image_file_extension: "png",
+    },
+    ProgrammingLanguage {
+        name: "PHP",
+        css_class: "php",
+        image_file: "images/php",
+        image_file_extension: "png",
+    },
+];
 
 #[derive(Serialize, Deserialize)]
+#[serde(bound(deserialize = "'de: 'static"))]
 pub struct State {
     pub show_info: bool,
     pub code: String,
-    pub programming_language: Option<Language>,
+    pub programming_language: Option<ProgrammingLanguage>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -100,8 +123,9 @@ pub struct StoredState {
 
 pub enum Msg {
     HideInitMessage(bool),
-    ChooseLanguage(Language),
+    ChooseLanguage(&'static ProgrammingLanguage),
     InputCode,
+    WebPSupport(bool),
 }
 
 impl App {
@@ -122,9 +146,7 @@ impl Component for App {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_ctx: &yew::Context<Self>) -> Self {
-        let textarea_ref = NodeRef::default();
-
+    fn create(ctx: &yew::Context<Self>) -> Self {
         let mut state = State {
             show_info: true,
             code: "".to_string(),
@@ -139,15 +161,23 @@ impl Component for App {
             }
         }
 
+        ctx.link().send_future(async {
+            match crate::utils::images::has_webp_support().await {
+                true => Self::Message::WebPSupport(true),
+                false => Self::Message::WebPSupport(false),
+            }
+        });
+
         App {
             state,
-            textarea_ref,
+            textarea_ref: NodeRef::default(),
+            webp_support: None,
         }
     }
 
     fn rendered(&mut self, _ctx: &yew::Context<Self>, _first_render: bool) {
         debug!("Rendering code change");
-        if !self.state.code.is_empty() && self.state.programming_language.is_some() {
+        if !self.state.code.trim().is_empty() && self.state.programming_language.is_some() {
             self.format_code();
         }
     }
@@ -175,8 +205,9 @@ impl Component for App {
                 true
             }
             Msg::ChooseLanguage(language) => {
-                self.state.programming_language = Some(language);
-                debug!("Selected {}", language.to_name());
+                debug!("Selected {}", language.name);
+
+                self.state.programming_language = Some(*language);
                 true
             }
             Msg::InputCode => {
@@ -185,6 +216,11 @@ impl Component for App {
                     .cast::<HtmlInputElement>()
                     .unwrap()
                     .value();
+                true
+            }
+            Msg::WebPSupport(state) => {
+                self.webp_support = Some(state);
+
                 true
             }
         }
@@ -197,7 +233,7 @@ impl Component for App {
             <header>
                 <div
                     class="page-header min-vh-100"
-                    style="background-image: url(./assets/images/background.svg)"
+                    style="background-image: url(images/background.svg)"
                     loading="lazy"
                 >
                     {
@@ -246,42 +282,15 @@ impl Component for App {
                                                                                 <div class="col-md-12">
                                                                                     {"It supports the following languages:"}
                                                                                     <div class="row">
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"C++"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"C#"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"Python"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"CSS"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"Delphi"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"VB"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"Java"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"JavaScript"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"Ruby"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"Sql"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"XML/HTML"}</li>
-                                                                                        </div>
-                                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                                                            <li>{"PHP"}</li>
-                                                                                        </div>
+                                                                                        {
+                                                                                            PROGRAMMING_LANGUAGES.iter().map(|language|{
+                                                                                                html! {
+                                                                                                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                                                                                    <li>{language.name}</li>
+                                                                                                </div>
+                                                                                                }
+                                                                                            }).collect::<Vec<_>>()
+                                                                                        }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -338,19 +347,22 @@ impl Component for App {
                                                                                 id="navbarDropdownMenuLink2"
                                                                             >
                                                                                 {
-                                                                                    if self.state.programming_language.is_some() {
-                                                                                        html!{<img src={self.state.programming_language.unwrap().to_file_path()}  height="24"/>}
+                                                                                    if let Some(programming_language) = self.state.programming_language {
+                                                                                        if let Some(webp_support) = self.webp_support {
+                                                                                            html!{<img src={programming_language.to_img_url(webp_support)}  height="24"/>}
+                                                                                        } else {
+                                                                                            html!{}
+                                                                                        }
                                                                                     } else {
                                                                                         html!{}
                                                                                     }
                                                                                 }
 
                                                                                 {
-
-                                                                                    if self.state.programming_language.is_none() {
-                                                                                        "Select a Programming language ...".to_string()
+                                                                                    if let Some(programming_language) = self.state.programming_language {
+                                                                                        format!("  {}", programming_language.name)
                                                                                     } else {
-                                                                                        format!("  {}",self.state.programming_language.unwrap().to_name())
+                                                                                        "Select a Programming language ...".to_string()
                                                                                     }
                                                                                 }
                                                                             </a>
@@ -358,78 +370,22 @@ impl Component for App {
                                                                                 class="dropdown-menu"
                                                                                 aria-labelledby="navbarDropdownMenuLink2"
                                                                             >
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::C))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/cpp.png" height="24" />
-                                                                                        {"   C++ / C"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::CSharp))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/csharp.png"  height="24"/>
-                                                                                        {"   C#"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Python))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/python.png" height="24"/>
-                                                                                        {"  Python"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Css))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/css.png"  height="24" />
-                                                                                        {"  CSS"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Delphi))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/delphi.png" height="24" />
-                                                                                        {"  Delphi"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::VisualBasic))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/viauslbasic.svg" height="24" />
-                                                                                        {"  VisualBasic"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Java))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/java.png" height="24" />
-                                                                                        {"  Java"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::JavaScript))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/javascript.png" height="24"/>
-                                                                                        {"  JavaScript"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Ruby))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/ruby.png" height="24" />
-                                                                                        {"  Ruby"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Sql))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/sql.png" height="24" />
-                                                                                        {"  SQL"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Xml))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/html.png" height="24"/>
-                                                                                        {"  XML/HTML"}
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(Language::Php))}>
-                                                                                    <a class="dropdown-item" href="#">
-                                                                                        <img src="./assets/images/php.png" height="24"/>
-                                                                                        {"  PHP"}
-                                                                                    </a>
-                                                                                </li>
+                                                                                {
+                                                                                    if let Some(webp_support) = self.webp_support {
+                                                                                        PROGRAMMING_LANGUAGES.iter().map(|language|{
+                                                                                            html! {
+                                                                                                <li onclick={ctx.link().callback(|_| Msg::ChooseLanguage(language))}>
+                                                                                                    <a class="dropdown-item" href="#">
+                                                                                                        <img src={language.to_img_url(webp_support)} height="24" />
+                                                                                                        {"   "}{language.name}
+                                                                                                    </a>
+                                                                                                </li>
+                                                                                            }
+                                                                                        }).collect::<Vec<_>>()
+                                                                                    } else {
+                                                                                        [html!{}].to_vec()
+                                                                                    }
+                                                                                }
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -465,7 +421,7 @@ impl Component for App {
                                             <div class="col-md-6">
                                                 <div class="card" style="min-height: 75%;">
                                                     <div class="card-body">
-                                                        <pre name="code" style="width:100%;height:100%" class={ if self.state.programming_language.is_some() { self.state.programming_language.unwrap().to_class()} else {"".to_string()}}>{if !self.state.code.is_empty() {self.state.code.as_str()} else {"Nothing to show...yet"}}</pre>
+                                                        <pre name="code" style="width:100%;height:100%" class={ if let Some(language) = self.state.programming_language { language.css_class } else {""}}>{if !self.state.code.trim().is_empty() {self.state.code.as_str()} else {"Nothing to show...yet"}}</pre>
                                                     </div>
                                                 </div>
                                             </div>

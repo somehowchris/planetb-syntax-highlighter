@@ -15,15 +15,16 @@ jobs:
         with:
           toolchain: stable
           override: true
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-      - name: Install yarn
-        run: npm i -g yarn
-      - name: Install
-        run: yarn install
+      - name: Install tools
+        run: |
+          cargo install trunk --git https://github.com/thedodd/trunk.git
+          cargo install wasm-bindgen-cli
+          rustup target add wasm32-unknown-unknown
+          sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
+          sudo chmod +x /usr/local/bin/minify
+          cargo install minifier
       - name: Build
-        run: yarn build
+        run: trunk build --release
       - name: Upload app artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -1,0 +1,20 @@
+[[hooks]]
+stage = "post_build"
+command = "bash"
+command_arguments = ["-c", "sed -i \"s/BUILD_HASH/$(echo \"$(cat $TRUNK_STAGING_DIR/index.html)$(date +%s)\" | md5sum | cut -d ' ' -f 1)/g\" $TRUNK_STAGING_DIR/sw.js; files=($(find $TRUNK_STAGING_DIR -type f -regex \"^.*$\" -printf \"'/%P',\"));escaped_files=$(echo \"${files[*]}\" | sed -e 's/[\\\\/&]/\\\\&/g');sed -i \"s/BUILT_FILES/$(echo $escaped_files)/g\" $TRUNK_STAGING_DIR/sw.js; find $TRUNK_STAGING_DIR -type f -name \"*.js\" -exec minifier {} \\; -exec sh -c 'f=$(basename $1 .js);d=$(dirname $1);rm -f $1;cp \"$d/$f.min.js\" \"$d/$f.js\";rm -f \"$d/$f.min.js\"' sh {} \\;"]
+
+[[hooks]]
+stage = "post_build"
+command = "bash"
+command_arguments = ["-c", "find $TRUNK_STAGING_DIR -type f -name \"*.html\" -exec sh -c 'minify --minify-css --minify-js --keep-html-and-head-opening-tags --keep-closing-tags --ensure-spec-compliant-unquoted-attribute-values -o $1 $1' sh {} \\; "]
+
+[[hooks]]
+stage = "post_build"
+command = "bash"
+command_arguments = ["-c", "cp $TRUNK_STAGING_DIR/manifest.webmanifest $TRUNK_STAGING_DIR/manifest.json;find $TRUNK_STAGING_DIR -type f -name \"*.json\" -exec minifier {} \\; -exec sh -c 'f=$(basename $1 .json);d=$(dirname $1);rm -f $1;cp \"$d/$f.min.json\" \"$d/$f.json\";rm -f \"$d/$f.min.json\"' sh {} \\;  ; cp $TRUNK_STAGING_DIR/manifest.json $TRUNK_STAGING_DIR/manifest.webmanifest; rm -f  $TRUNK_STAGING_DIR/manifest.json"]
+
+
+[[hooks]]
+stage = "post_build"
+command = "bash"
+command_arguments = ["-c", "find $TRUNK_STAGING_DIR -type f -name \"*.css\" -exec minifier {} \\; -exec sh -c 'f=$(basename $1 .css);d=$(dirname $1);rm -f $1;cp \"$d/$f.min.css\" \"$d/$f.css\";rm -f \"$d/$f.min.css\"' sh {} \\;"]

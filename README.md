@@ -21,7 +21,7 @@ docker run -p 8000:80 chweicki/planetbb-syntax-highlighter:0.0.6
 
 ## 🚴 For Developers
 
-This app is built with rust and wasm-webpack. Dependent code such as the `SyntaxHighlighter` is copied from the google archive and as is in JS. If you would like to know more about it [head to this reamde page](./src/highlighter/README.md)
+This app is built with rust and wasm-webpack. Dependent code such as the `SyntaxHighlighter` is copied from the google archive and as is in JS. If you would like to know more about it [head to this reamde page](./src/assets/js/highlighter/README.md)
 
 ### 🛠️ Build
 
