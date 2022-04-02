@@ -1,0 +1,1 @@
+export const highlight=()=>{dp.SyntaxHighlighter.HighlightAll("code",false)}
