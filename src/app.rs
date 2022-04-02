@@ -28,7 +28,7 @@ pub struct ProgrammingLanguage {
 }
 
 impl ProgrammingLanguage {
-    fn to_img_url(&self, webp_support: bool) -> String {
+    fn to_img_url(self, webp_support: bool) -> String {
         build_webp_url(self.image_file, self.image_file_extension, webp_support)
     }
 }

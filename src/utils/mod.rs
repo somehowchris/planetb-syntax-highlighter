@@ -1,2 +1,2 @@
-pub mod images;
 pub mod highlighter;
+pub mod images;

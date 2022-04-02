@@ -78,7 +78,7 @@ pub async fn has_webp_support() -> bool {
 const CONVERTED_IMAGE_EXTENSIONS: [&str; 2] = ["png", "jpg"];
 
 pub fn build_webp_url(path: &str, default_extension: &str, has_support: bool) -> String {
-    if has_support && CONVERTED_IMAGE_EXTENSIONS.contains(&default_extension){
+    if has_support && CONVERTED_IMAGE_EXTENSIONS.contains(&default_extension) {
         let mut url = String::with_capacity(path.len() + 1 + 4);
 
         url.push_str(path);

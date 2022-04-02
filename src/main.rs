@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 mod app;
 
 pub mod utils;
