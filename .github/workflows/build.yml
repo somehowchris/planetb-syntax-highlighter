@@ -3,7 +3,6 @@ name: Build
 on:
   push:
     branches:
-      - "master"
       - "develop"
   pull_request:
     branches:
@@ -23,15 +22,14 @@ jobs:
 
       - name: Install tools
         run: |
-          cargo install trunk --git https://github.com/thedodd/trunk.git
-          cargo install wasm-bindgen-cli
+          wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
           rustup target add wasm32-unknown-unknown
           sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
           sudo chmod +x /usr/local/bin/minify
           cargo install minifier
 
       - name: Build
-        run: trunk build --release
+        run: ./trunk build --release
 
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
