@@ -10,15 +10,17 @@ on:
       - "*"
 
 jobs:
-  docker:
+  container:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+
       - name: Install tools
         run: |
           cargo install trunk --git https://github.com/thedodd/trunk.git
@@ -27,8 +29,14 @@ jobs:
           sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
           sudo chmod +x /usr/local/bin/minify
           cargo install minifier
+
       - name: Build
         run: trunk build --release
-      - name: Build and push
-        id: docker_build
-        run: docker build .
+
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
+        with:
+          containerfiles: |
+            Containerfile
+          platforms: linux/amd64,linux/arm64
+          image: ci
