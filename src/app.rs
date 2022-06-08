@@ -360,7 +360,7 @@ impl Component for App {
 
                                                                                 {
                                                                                     if let Some(programming_language) = self.state.programming_language {
-                                                                                        format!("  {}", programming_language.name)
+                                                                                        format!("  {programming_language.name}")
                                                                                     } else {
                                                                                         "Select a Programming language ...".to_string()
                                                                                     }
@@ -402,7 +402,7 @@ impl Component for App {
                                                                                 name="message"
                                                                                 class="form-control"
                                                                                 id="message"
-                                                                                style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{}", if let Some(element) = self.textarea_ref.cast::<Element>(){format!("height: {}px", element.scroll_height())} else {"".to_string()}) }
+                                                                                style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{height}", height=if let Some(element) = self.textarea_ref.cast::<Element>(){format!("height: {px}px", px=element.scroll_height())} else {"".to_string()}) }
                                                                                 oninput={ctx.link().callback(|_e| Msg::InputCode)}
                                                                                 placeholder="Just paste something and see what happens...."
                                                                             ></textarea>
