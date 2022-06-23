@@ -26,7 +26,6 @@ jobs:
           rustup target add wasm32-unknown-unknown
           sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
           sudo chmod +x /usr/local/bin/minify
-          cargo install minifier
 
       - name: Build
         run: ./trunk build --release
