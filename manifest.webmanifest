@@ -1,1 +1,11 @@
-{"name":"Code Syntax highlighter","short_name":"Planet-B highlighter","icons":[],"lang":"en-US","start_url":"./index.html","display":"standalone","background_color":"white","theme_color":"white","prefer_related_applications":true}
+{
+    "name": "Code Syntax highlighter",
+    "short_name": "Planet-B highlighter",
+    "icons": [],
+    "lang": "en-US",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "white",
+    "prefer_related_applications": true
+  }
