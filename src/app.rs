@@ -272,7 +272,7 @@ impl Component for App {
                                                                                 <br />
                                                                                 <br />
                                                                                 {"All the code is held inside your browser, nothing leaves it. If you still worry and would like to host it yourselves, have a look at the container part in"}
-                                                                                <a href="https://github.com/somehowchris/planetbb-syntax-highlighter#container">
+                                                                                <a href="https://github.com/somehowchris/planetb-syntax-highlighter#container">
                                                                                     {"this github repository"}
                                                                                 </a>
                                                                                 <br />
@@ -360,7 +360,7 @@ impl Component for App {
 
                                                                                 {
                                                                                     if let Some(programming_language) = self.state.programming_language {
-                                                                                        format!("  {programming_language.name}")
+                                                                                        format!("  {name}", name=programming_language.name)
                                                                                     } else {
                                                                                         "Select a Programming language ...".to_string()
                                                                                     }

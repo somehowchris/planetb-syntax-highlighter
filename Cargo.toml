@@ -1,5 +1,5 @@
 [package]
-name = "planetbb-syntax-highligher"
+name = "planetb-syntax-highligher"
 version = "0.1.0"
 authors = ["Christof Weickhardt <christof@weickhardt.ch"]
 edition = "2021"
@@ -8,7 +8,7 @@ edition = "2021"
 panic = 'abort'
 codegen-units = 1
 opt-level = 'z'
-lto = 'y'
+lto = 'fat'
 
 [dependencies]
 log = "0.4.17"
