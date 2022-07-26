@@ -14,16 +14,16 @@ lto = 'fat'
 log = "0.4.17"
 serde = "1.0.140" 
 serde_derive = "1.0.140"  
-wasm-bindgen = "0.2.81" 
+wasm-bindgen = "0.2.82" 
 wasm-logger = "0.2.0"
 yew = "0.19.3"   
 gloo-storage = "0.2.1"
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.31"
+wasm-bindgen-test = "0.3.32"
 
 [dependencies.web-sys]
-version = "0.3.58"
+version = "0.3.59"
 features = [
   'KeyboardEvent',
   'Document',
