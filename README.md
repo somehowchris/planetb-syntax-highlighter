@@ -15,7 +15,7 @@ This app is also built as a `nginx-alpine` container image for `arm64` and `amd6
 
 To use it:
 ```
-docker run -p 8000:80 ghcr.io/somehowchris/planetb-syntax-highlighter:0.1.6
+docker run -p 8000:80 ghcr.io/somehowchris/planetb-syntax-highlighter:0.1.8
 ```
 > This will start the container and open it to your network on port `8000`
 
