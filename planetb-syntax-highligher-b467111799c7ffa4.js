@@ -1,4 +1,4 @@
-import * as __wbg_star0 from './snippets/planetb-syntax-highligher-8801df6dbdb1aedf/src/assets/js/highlighter/index.js';
+import * as __wbg_star0 from './snippets/planetb-syntax-highligher-902d44a349331340/src/assets/js/highlighter/index.js';
 
 let wasm;
 
@@ -215,11 +215,11 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_22(arg0, arg1) {
-    wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h5ca65c82ce2782f0(arg0, arg1);
+    wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf0b571abe026da5a(arg0, arg1);
 }
 
 function __wbg_adapter_25(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2dfb09e9764891b4(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h4ed183bd58592dcc(arg0, arg1, addHeapObject(arg2));
 }
 
 function makeClosure(arg0, arg1, dtor, f) {
@@ -244,7 +244,7 @@ function makeClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_28(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__Fn__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha40eac6248f6c76a(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__Fn__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h67454c333e56574a(arg0, arg1, addHeapObject(arg2));
 }
 
 let cachedUint32Memory0 = new Uint32Array();
@@ -621,7 +621,7 @@ function getImports() {
         const ret = makeClosure(arg0, arg1, 59, __wbg_adapter_28);
         return addHeapObject(ret);
     };
-    imports['./snippets/planetb-syntax-highligher-8801df6dbdb1aedf/src/assets/js/highlighter/index.js'] = __wbg_star0;
+    imports['./snippets/planetb-syntax-highligher-902d44a349331340/src/assets/js/highlighter/index.js'] = __wbg_star0;
 
     return imports;
 }
@@ -655,7 +655,7 @@ function initSync(bytes) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('planetb-syntax-highligher-cbe29881dcc99819_bg.wasm', import.meta.url);
+        input = new URL('planetb-syntax-highligher-b467111799c7ffa4_bg.wasm', import.meta.url);
     }
     const imports = getImports();
 
