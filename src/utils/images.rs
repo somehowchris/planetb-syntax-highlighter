@@ -70,9 +70,9 @@ pub async fn has_webp_support() -> bool {
         "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==",
     );
 
-    let result = img.await.is_ok();
+    
 
-    result
+    img.await.is_ok()
 }
 
 const CONVERTED_IMAGE_EXTENSIONS: [&str; 2] = ["png", "jpg"];
