@@ -70,8 +70,6 @@ pub async fn has_webp_support() -> bool {
         "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==",
     );
 
-    
-
     img.await.is_ok()
 }
 
