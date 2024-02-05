@@ -81,7 +81,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Download built app
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist-folder
           path: dist/
@@ -154,7 +154,7 @@ jobs:
         with:
           submodules: recursive
       - name: Download built app
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist-folder
           path: dist/
