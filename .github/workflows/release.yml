@@ -70,7 +70,7 @@ jobs:
        # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
-        uses: sigstore/cosign-installer@b49ef6b125b98c2708965eeb167d89e86aa73ef6
+        uses: sigstore/cosign-installer@b235ed95bef2a3cf9f8641bc537bc22c7cb9a3a8
       
       # Login against a container registry
       - name: Log into registry ghcr.io
