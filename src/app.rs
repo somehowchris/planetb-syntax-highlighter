@@ -1,7 +1,6 @@
 use log::debug;
 use serde_derive::{Deserialize, Serialize};
 
-use web_sys::Element;
 use yew::prelude::*;
 use yew::NodeRef;
 
@@ -156,8 +155,8 @@ impl Component for App {
         let local_storage: Result<StoredState, _> = LocalStorage::get(STATE_KEY);
 
         if let Ok(stored_state) = local_storage {
-            if stored_state.show_info.is_some() {
-                state.show_info = stored_state.show_info.unwrap();
+            if let Some(show_info) = stored_state.show_info {
+                state.show_info = show_info;
             }
         }
 
@@ -402,10 +401,10 @@ impl Component for App {
                                                                                 name="message"
                                                                                 class="form-control"
                                                                                 id="message"
-                                                                                style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{height}", height=if let Some(element) = self.textarea_ref.cast::<Element>(){format!("height: {px}px", px=element.scroll_height())} else {"".to_string()}) }
+                                                                                style={ format!("min-height: calc(75vh - 204px);overflow-y: hidden;{height}", height=if let Some(element) = self.textarea_ref.cast::<web_sys::Element>(){format!("height: {px}px", px=element.scroll_height())} else {"".to_string()}) }
                                                                                 oninput={ctx.link().callback(|_e| Msg::InputCode)}
                                                                                 placeholder="Just paste something and see what happens...."
-                                                                            ></textarea>
+                                                                            />
                                                                         </div>
                                                                     </div>
                                                                 </div>
