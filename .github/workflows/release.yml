@@ -106,7 +106,7 @@ jobs:
 
       - name: Push container image
         id: push-container-image
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ steps.build-image.outputs.image }}
           registry: ghcr.io
