@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository and submodules
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -40,7 +40,7 @@ jobs:
       deployments: write
     steps:
       - name: Checkout repository and submodules
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: recursive
       - name: Process version of the tag
@@ -74,7 +74,7 @@ jobs:
       
       # Login against a container registry
       - name: Log into registry ghcr.io
-        uses: redhat-actions/podman-login@v1
+        uses: redhat-actions/podman-login@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -96,7 +96,7 @@ jobs:
 
       - name: Buildah Action
         id: build-image
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           containerfiles: |
             Containerfile
@@ -106,7 +106,7 @@ jobs:
 
       - name: Push container image
         id: push-container-image
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ steps.build-image.outputs.image }}
           registry: ghcr.io
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository and submodules
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: recursive
       - name: Download built app
